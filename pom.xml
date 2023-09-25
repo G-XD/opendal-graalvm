@@ -104,12 +104,9 @@
                 <artifactId>native-maven-plugin</artifactId>
                 <version>0.9.27</version>
                 <configuration>
-                    <!-- imageName用于设置生成的二进制文件名称 -->
                     <imageName>${project.artifactId}</imageName>
-                    <!-- mainClass用于指定main方法类路径 -->
                     <mainClass>org.gxd.Main</mainClass>
                     <buildArgs>
-                        <!-- 这些配置类基本都是指定初始化时间和一些配置，都不用管，并且不要动，否则可能会打包失败 -->
                         --no-fallback
                         --initialize-at-build-time=org.springframework.util.unit.DataSize
                         --initialize-at-build-time=org.slf4j.MDC
