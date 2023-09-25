@@ -20,6 +20,12 @@
             <url>https://repo1.maven.org/maven2/</url>
         </repository>
     </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>test</id>
+            <url>https://repo1.maven.org/maven2/</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <dependencies>
         <dependency>
@@ -92,6 +98,40 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.graalvm.buildtools</groupId>
+                <artifactId>native-maven-plugin</artifactId>
+                <version>0.9.27</version>
+                <configuration>
+                    <!-- imageName用于设置生成的二进制文件名称 -->
+                    <imageName>${project.artifactId}</imageName>
+                    <!-- mainClass用于指定main方法类路径 -->
+                    <mainClass>org.gxd.Main</mainClass>
+                    <buildArgs>
+                        <!-- 这些配置类基本都是指定初始化时间和一些配置，都不用管，并且不要动，否则可能会打包失败 -->
+                        --no-fallback
+                        --initialize-at-build-time=org.springframework.util.unit.DataSize
+                        --initialize-at-build-time=org.slf4j.MDC
+                        --initialize-at-build-time=ch.qos.logback.classic.Level
+                        --initialize-at-build-time=ch.qos.logback.classic.Logger
+                        --initialize-at-build-time=ch.qos.logback.core.util.StatusPrinter
+                        --initialize-at-build-time=ch.qos.logback.core.status.StatusBase
+                        --initialize-at-build-time=ch.qos.logback.core.status.InfoStatus
+                        --initialize-at-build-time=ch.qos.logback.core.spi.AppenderAttachableImpl
+                        --initialize-at-build-time=org.slf4j.LoggerFactory
+                        --initialize-at-build-time=ch.qos.logback.core.util.Loader
+                        --initialize-at-build-time=org.slf4j.impl.StaticLoggerBinder
+                        --initialize-at-build-time=ch.qos.logback.classic.spi.ThrowableProxy
+                        --initialize-at-build-time=ch.qos.logback.core.CoreConstants
+                        --report-unsupported-elements-at-runtime
+                        --allow-incomplete-classpath
+                        -H:+ReportExceptionStackTraces
+                        -H:JNIConfigurationFiles=./jni-config.json
+                        -H:IncludeResources=.*/*indings.properties$
+                        -H:IncludeResources=.*/*.opendal_java.so$
+                    </buildArgs>
+                </configuration>
             </plugin>
         </plugins>
         <extensions>
