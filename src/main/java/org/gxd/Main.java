@@ -4,18 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 import org.apache.opendal.Operator;
 
-/**
- * TODO
- *
- * @author gxd
- * @date 2023/9/22 14:53
- */
 public class Main {
     public static void main(String[] args) {
         Map<String, String> map = new HashMap<>();
         map.put("root", "/tmp");
         try (Operator op = new Operator("fs", map)) {
-            op.write("test.txt", "hello world").join();
+            op.write("test.txt", "hello OpenDAL").join();
             System.out.println(op.read("test.txt").join());
             op.delete("test.txt").join();
         }
